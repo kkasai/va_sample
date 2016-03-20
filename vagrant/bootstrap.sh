@@ -26,7 +26,6 @@ sudo sed -i 's/enabled=1/enabled=0/g' /etc/yum.repos.d/mysql-community.repo
 sudo yum -y --enablerepo=mysql56-community install mysql-community-server 
 sudo systemctl start mysqld.service
 sudo systemctl enable mysqld.service
-sudo mysql -u root -e "DELETE FROM mysql.user where host <> 'localhost' or user <> 'root';"
 sudo mysql -u root -e "SET PASSWORD FOR root@localhost = PASSWORD('root');"
 
 #PHP
@@ -36,6 +35,8 @@ sudo systemctl restart httpd.service
 #phpMyAdmin
 sudo yum install -y epel-release
 sudo yum install --enablerepo=epel -y phpMyAdmin
+sudo cp -f /etc/httpd/conf.d/phpMyAdmin.conf /etc/httpd/conf.d/phpMyAdmin.conf.bak
+sudo cp -f /vagrant/vagrant/conf/phpMyAdmin.conf /etc/httpd/conf.d/phpMyAdmin.conf
 sudo systemctl restart httpd.service
 
 # chmod
